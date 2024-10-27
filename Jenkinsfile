@@ -46,7 +46,7 @@ pipeline {
                 imageTag = "${BUILD_NUMBER}"
             }
             steps {
-                sh 'docker build -t ashuto91/Semaphore:${imageTag} .'
+                sh 'docker build -t ashuto91/semaphore:${imageTag} .'
             }
         }
         
