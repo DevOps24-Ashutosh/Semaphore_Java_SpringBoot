@@ -43,7 +43,7 @@ pipeline {
         // }
         stage('Build Docker Image') {
             environment {
-                imageTag = ${BUILD_NUMBER}
+                imageTag = "${BUILD_NUMBER}"
             }
             steps {
                 sh 'docker build -t ashuto91/Semaphore:${imageTag} .'
