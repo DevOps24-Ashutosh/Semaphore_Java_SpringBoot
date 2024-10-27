@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: semaphore-app
+  namespace: default
+  labels:
+    app: semaphore
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: semaphore
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: semaphore
+      # annotations:
+      #   prometheus.io/scrape: "true"
+      #   prometheus.io/path: "/actuator/prometheus"
+      #   prometheus.io/port: "8080"
+    spec:
+      containers:
+        - name: semaphore
+          image: ashuto91/semaphore:${BUILD_NUMBER}  # Replace with your actual image tag
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: http
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          # livenessProbe:
+          #   httpGet:
+          #     path: /actuator/health
+          #     port: 8080
+          #   initialDelaySeconds: 60
+          #   periodSeconds: 15
+          # readinessProbe:
+          #   httpGet:
+          #     path: /actuator/health
+          #     port: 8080
+          #   initialDelaySeconds: 30
+          #   periodSeconds: 10
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
+            - name: JAVA_OPTS
+              value: "-Xms256m -Xmx512m -XX:+UseG1GC"
+          volumeMounts:
+            - name: app-config
+              mountPath: /config
+              readOnly: true
+      volumes:
+        - name: app-config
+          configMap:
+            name: semaphore-config
