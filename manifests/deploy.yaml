@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: semaphore
-          image: ashuto91/semaphore:${BUILD_NUMBER}  # Replace with your actual image tag
+          image: ashuto91/semaphore:${BUILD_NUMBER}
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

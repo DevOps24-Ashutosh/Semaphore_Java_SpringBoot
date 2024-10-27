@@ -9,7 +9,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: semaphore.yourdomain.com  # Replace with your domain
+    - host: semaphore.ashuto91.com
       http:
         paths:
           - path: /
