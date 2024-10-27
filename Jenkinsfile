@@ -28,12 +28,12 @@ pipeline {
         }
         stage('Integration Test') {
             steps {
-                sh 'mvn clean test -Pintegration-testing'
+                sh 'mvn test -Pintegration-testing'
             }
         }
         stage('Performance Tests') {
             steps {
-                sh 'mvn clean jmeter:jmeter'
+                sh 'mvn jmeter:jmeter'
             }
         }
         // stage('Run') {
