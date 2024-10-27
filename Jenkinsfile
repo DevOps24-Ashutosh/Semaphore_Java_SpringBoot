@@ -48,11 +48,11 @@ pipeline {
             }
             steps {
                 sh 'docker build -t ashuto91/semaphore:${imageTag} .'
-            }
-            script {
-                docker.withRegistry('', registryCredential) {
-                    sh 'docker push ashuto91/semaphore:${BUILD_NUMBER}'
+                script {
+                    docker.withRegistry('', registryCredential) {
+                        sh 'docker push ashuto91/semaphore:${BUILD_NUMBER}'
                 }
+            }
             }
         }
         
