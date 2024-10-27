@@ -1,6 +1,10 @@
 pipeline {
     agent { label 'ubuntu' }
 
+    tools {
+        maven 'Apache Maven 3.8.7'  // Use the name defined in Global Tool Configuration
+    }
+
     stages {
         stage('Clean Workspace') {
             cleanWs()
