@@ -36,11 +36,18 @@ pipeline {
                 sh 'mvn clean jmeter:jmeter'
             }
         }
-        stage('Run') {
+        // stage('Run') {
+        //     steps {
+        //         sh 'mvn spring-boot:run'
+        //     }
+        // }
+        stage('Build Docker Image') {
             steps {
-                sh 'mvn spring-boot:run'
+                imageTag = ${BUILD_NUMBER}
+                sh 'docker build -t ashuto91/Semaphore:${imageTag} .'
             }
         }
+        
         // stage('Source Code Checkout') {
         //     steps {
         //         echo 'Hello World'
