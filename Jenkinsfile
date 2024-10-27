@@ -36,26 +36,34 @@ pipeline {
                 sh 'mvn jmeter:jmeter'
             }
         }
-        // stage('Run') {
-        //     steps {
-        //         sh 'mvn spring-boot:run'
-        //     }
-        // }
         stage('Build Docker Image') {
             environment {
                 imageTag = "${BUILD_NUMBER}"
-                registryCredential = 'dockerHubCred'
             }
             steps {
                 sh 'docker build -t ashuto91/semaphore:${imageTag} .'
+            }
+        }
+        stage('Push Docker Image to Docker Hub') {
+            environment {
+                registryCredential = 'dockerHubCred'
+            }
+            steps {
                 script {
                     docker.withRegistry('', registryCredential) {
                         sh 'docker push ashuto91/semaphore:${BUILD_NUMBER}'
+                    }
                 }
             }
-            }
         }
-        
+        // stage("Removing the previous Build Image") {
+        //     steps {
+        //         sh '''
+        //         echo "Removing the previous built image"
+        //         docker rmi ashuto91/semaphore:${BUILD_NUMBER}
+        //         '''
+        //     }
+        // }
         // stage('Source Code Checkout') {
         //     steps {
         //         echo 'Hello World'
