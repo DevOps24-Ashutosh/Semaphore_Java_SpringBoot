@@ -44,9 +44,15 @@ pipeline {
         stage('Build Docker Image') {
             environment {
                 imageTag = "${BUILD_NUMBER}"
+                registryCredential = 'dockerHubCred'
             }
             steps {
                 sh 'docker build -t ashuto91/semaphore:${imageTag} .'
+            }
+            script {
+                docker.withRegistry('', registryCredential) {
+                    sh 'docker push ashuto91/semaphore:${BUILD_NUMBER}'
+                }
             }
         }
         
