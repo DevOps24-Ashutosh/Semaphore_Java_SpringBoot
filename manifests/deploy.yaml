@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: semaphore
-          image: ashuto91/semaphore:${BUILD_NUMBER}
+          image: ashuto91/semaphore:10
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
